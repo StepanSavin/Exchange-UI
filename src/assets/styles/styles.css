@@ -23,11 +23,12 @@
         margin-top: 220px;
         padding-right: 110px;
         padding-left: 110px;
+        padding-bottom: 110px;
     }
 }
 
 @media (min-width:1200px){
-    .main-container{
+    .main-container, p.enter-numbers, p.is-pair-active{
         padding-right: 220px;
         padding-left: 220px;
     }

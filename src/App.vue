@@ -1,5 +1,5 @@
 <template>
-  <div class="main-container px-8 w-full min-h-screen lg:min-h-0">
+  <div class="main-container px-8 w-full min-h-screen lg:min-h-0 relative">
     <h1 class="text-sl mt-32 lg:text-big">Crypto Exchange</h1>
     <h2 class="text-xl mt-8">Exchange fast and easy</h2>
 
@@ -9,7 +9,7 @@
         justify-end
         lg:justify-between
         lg:items-center
-        lg:mt-28
+        lg:mt-28 
       "
     >
       <currency-input
@@ -19,8 +19,8 @@
         inputPosition="left"
         ticker="btc"
         class="z-10 mt-28 lg:mt-0"
-        @select="loadMinExchange"
-        @enter="loadEstimatedExchange"
+        @currencySelect="loadMinExchange"
+        @minAmountEntered="loadEstimatedExchange"
         >{{ minimalExchange }}
       </currency-input>
 
@@ -48,7 +48,7 @@
         inputPosition="right"
         ticker="eth"
         class="z-0 mt-10 lg:mt-0"
-        @select="loadMinExchange"
+        @currencySelect="loadMinExchange"
       >
       </currency-input>
     </div>
@@ -61,7 +61,8 @@
         border border-red-300
         text-red-400 text-center
         py-2
-        lg:mt-24
+        is-pair-active 
+        lg:right-96 lg:left-96 lg:top-60 lg:fixed 
       "
     >
       This pair is not active
@@ -74,7 +75,7 @@
         border border-red-300
         text-red-400 text-center
         py-2
-        lg:mt-24
+        lg:right-96 lg:left-96 lg:top-24 lg:fixed 
       "
     >
       Enter numbers
@@ -145,7 +146,7 @@ export default {
   },
 
   methods: {
-    loadCurrenciesList() {
+    async loadCurrenciesList() {
       const response = await fetch(
         "https://api.changenow.io/v1/currencies?active=true"
       );
@@ -187,7 +188,6 @@ export default {
     loadEstimatedExchange(value) {
       if (value === "") value = 0;
       if (Number(value) < Number(this.minimalExchange)) {
-        console.log("Мало денег " + value);
         document.querySelector(".minimal").classList.add("text-red-500");
         this.estimatedExchange = "---";
         return;

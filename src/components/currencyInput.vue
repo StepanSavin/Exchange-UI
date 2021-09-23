@@ -18,7 +18,7 @@
           amount
         "
         :data-position="inputPosition"
-        @input="$emit('enter', $event.target.value)"
+        @input="$emit('minAmountEntered', $event.target.value)"
       />
       <div
         v-if="selectedCurrencyObject"
@@ -86,6 +86,8 @@
             cursor-pointer
           "
           @click="selectCurrency"
+          @dblclick.prevent
+          @mousedown.prevent
         >
           <img :src="currency?.image" class="px-6" />
           <span class="pr-6 uppercase">{{ currency.ticker }}</span>
@@ -201,7 +203,7 @@ export default {
     selectCurrency(event) {
       this.selectedCurrencyTicker =
         event.currentTarget.getAttribute("data-ticker");
-      this.$emit("select", {
+      this.$emit("currencySelect", {
         ticker: this.selectedCurrencyTicker,
         input: this.inputPosition,
         name: this.selectedCurrencyObject.name,
