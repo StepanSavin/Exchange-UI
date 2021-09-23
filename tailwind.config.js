@@ -1,5 +1,5 @@
 module.exports = {
-  purge: ['./public/index.html', './src/*.{vue}'],
+  purge: ['./public/index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
@@ -14,6 +14,9 @@ module.exports = {
       sl: ['40px', '48px'],
       big: ['50px','60px']
     },
+    maxWidth: {
+      '1/2': '110px',
+     }
   },
   variants: {
     extend: {},

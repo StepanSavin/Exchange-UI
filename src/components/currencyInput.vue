@@ -6,17 +6,41 @@
         :placeholder="
           inputPosition == 'left' ? 'Enter the amount' : 'Estimated'
         "
-        class="w-7/12 lg:w-6/12 xl:w-7/12 h-24 bg-transparent outline-none px-8 border-r-2 amount"
+        class="
+          w-7/12
+          lg:w-6/12
+          xl:w-7/12
+          h-24
+          bg-transparent
+          outline-none
+          px-8
+          border-r-2
+          amount
+        "
         :data-position="inputPosition"
         @input="$emit('enter', $event.target.value)"
       />
       <div
         v-if="selectedCurrencyObject"
-        class="w-5/12 lg:w-6/12 xl:w-5/12 h-24 flex items-center md:justify-center md:-ml-8 cursor-pointer"
+        class="
+          w-5/12
+          lg:w-6/12
+          xl:w-5/12
+          pr-24
+          h-24
+          flex
+          items-center
+          md:justify-center
+          cursor-pointer
+        "
         @click="openCurrenciesList"
       >
-        <img :src="selectedCurrencyObject?.image" class="px-6" />
-        <span class="pr-6 uppercase">{{ selectedCurrencyObject.ticker }}</span>
+        <div class="flex items-center">
+          <img :src="selectedCurrencyObject?.image" class="px-6" />
+          <div class="uppercase max-w-1/2 overflow-hidden">
+            {{ selectedCurrencyObject.ticker }}
+          </div>
+        </div>
       </div>
 
       <span
@@ -52,7 +76,15 @@
           v-for="currency of filteredCurrenciesList"
           :key="currency.ticker"
           :data-ticker="currency.ticker"
-          class="w-full h-24 border-t flex items-center hover:bg-gray-200 cursor-pointer"
+          class="
+            w-full
+            h-24
+            border-t
+            flex
+            items-center
+            hover:bg-gray-200
+            cursor-pointer
+          "
           @click="selectCurrency"
         >
           <img :src="currency?.image" class="px-6" />
@@ -68,14 +100,23 @@
       </div>
     </div>
     <div
-        :class="isInputFocused?'rotate-90':'-rotate-90'" 
-        class="absolute top-3 right-4 p-4 transform  transition-all duration-300 cursor-pointer"
-        @click="openCurrenciesList"
+      :class="isInputFocused ? 'rotate-90' : '-rotate-90'"
+      class="
+        absolute
+        top-3
+        right-4
+        p-4
+        transform
+        transition-all
+        duration-300
+        cursor-pointer
+      "
+      @click="openCurrenciesList"
     >
       <svg viewBox="0 0 32 32" class="h-12 w-12 chevron">
-          <path
-            d="M20,25a1,1,0,0,1-.71-.29l-8-8a1,1,0,0,1,0-1.42l8-8a1,1,0,1,1,1.42,1.42L13.41,16l7.3,7.29a1,1,0,0,1,0,1.42A1,1,0,0,1,20,25Z"
-          />
+        <path
+          d="M20,25a1,1,0,0,1-.71-.29l-8-8a1,1,0,0,1,0-1.42l8-8a1,1,0,1,1,1.42,1.42L13.41,16l7.3,7.29a1,1,0,0,1,0,1.42A1,1,0,0,1,20,25Z"
+        />
       </svg>
     </div>
   </div>
@@ -120,29 +161,6 @@ export default {
     };
   },
 
-  methods: {
-    openCurrenciesList() {
-      document
-        .querySelector(`[data-position=${this.inputPosition + "second"}]`)
-        .focus();
-      this.isInputFocused = !this.isInputFocused;
-      this.searchValue = "";
-      document
-        .querySelectorAll(".currList")
-        .forEach((item) => (item.scrollTop = 0));
-    },
-
-    selectCurrency(event) {
-      this.selectedCurrencyTicker =
-        event.currentTarget.getAttribute("data-ticker");
-      this.$emit("select", {
-        ticker: this.selectedCurrencyTicker,
-        input: this.inputPosition,
-        name: this.selectedCurrencyObject.name,
-      });
-    },
-  },
-
   computed: {
     filteredCurrenciesList() {
       return this.currenciesList.filter((item) => {
@@ -163,6 +181,31 @@ export default {
 
     amountValue() {
       return this.value;
+    },
+  },
+
+  methods: {
+    openCurrenciesList() {
+      if (window.innerWidth >= 1024) {
+        document
+          .querySelector(`[data-position=${this.inputPosition + "second"}]`)
+          .focus();
+      }
+      this.isInputFocused = !this.isInputFocused;
+      this.searchValue = "";
+      document
+        .querySelectorAll(".currList")
+        .forEach((item) => (item.scrollTop = 0));
+    },
+
+    selectCurrency(event) {
+      this.selectedCurrencyTicker =
+        event.currentTarget.getAttribute("data-ticker");
+      this.$emit("select", {
+        ticker: this.selectedCurrencyTicker,
+        input: this.inputPosition,
+        name: this.selectedCurrencyObject.name,
+      });
     },
   },
 

@@ -145,7 +145,7 @@ export default {
   },
 
   methods: {
-    async loadCurrenciesList() {
+    loadCurrenciesList() {
       const response = await fetch(
         "https://api.changenow.io/v1/currencies?active=true"
       );
@@ -153,7 +153,7 @@ export default {
       this.loadMinExchange({input:'left', ticker:'btc'});
     },
 
-    async loadMinExchange(obj) {
+    loadMinExchange(obj) {
       if (obj.input == "left") {
         this.currencyOne = obj.ticker;
       } else {
@@ -220,8 +220,6 @@ export default {
   created() {
     this.loadCurrenciesList();
   },
-
-  async mounted() {},
 };
 </script>
 
